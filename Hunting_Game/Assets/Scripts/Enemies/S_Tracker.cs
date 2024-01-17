@@ -12,6 +12,12 @@ public class S_Tracker : MonoBehaviour
     {
         pointer = GameObject.FindGameObjectWithTag("Pointer");
         owner = transform.parent.GameObject();
+        Invoke("AbortChild", 0.001f);
+    }
+
+    private void AbortChild()
+    {
+        transform.parent = null;
     }
 
     private void OnTriggerEnter(Collider other)

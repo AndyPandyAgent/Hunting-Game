@@ -10,19 +10,13 @@ public class TrackerSpawner : MonoBehaviour
 
     private void Awake()
     {
-        StartCoroutine(Spawn());
+        Invoke("Spawner", spawnRate);
     }
 
-    IEnumerator Spawn()
+    private void Spawner()
     {
-        while (true)
-        {
-            Instantiate(tracker, transform.parent = gameObject.transform);
-            yield return new WaitForSeconds(spawnRate);
-            currentTracker = gameObject.transform.GetChild(0).gameObject;
-            currentTracker.transform.parent = null;
-            yield return new WaitForSeconds(spawnRate);
-        }
+        var newTracker = Instantiate(tracker, transform);
 
+        Invoke("Spawner", spawnRate);
     }
 }

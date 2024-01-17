@@ -18,6 +18,7 @@ public class GunScript : MonoBehaviour
     public float timeBetweenShooting, spread, relodTime, timeBetweenShots;
     public int magazineSize, bulletsPerTap;
     public bool allowButtonHold;
+    public LayerMask heartLayer;
 
     int bulletsLeft, bulletsShot;
 
@@ -149,9 +150,11 @@ public class GunScript : MonoBehaviour
         if (readyToShoot && Input.GetButtonDown("Fire1") && !reloading && bulletsLeft > 0)
         {
             bulletsShot = 0;
-
+            print("pew");
 
             Shoot();
+
+
         }
 
         if (readyToShoot && Input.GetButtonDown("Fire1") && !reloading && bulletsLeft <= 0)
@@ -163,10 +166,25 @@ public class GunScript : MonoBehaviour
 
     private void Shoot()
     {
+        /*RaycastHit hit;
+        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, 999999999999999, heartLayer))
+        {
+            print("Shoot");
+            S_Heart heart = hit.transform.GetComponent<S_Heart>();
+
+            if (heart != null)
+            {
+                print("hit");
+                heart.TakeDamage(damage);
+            }
+        }*/
+
+
+
         //animScript.PlayAnim();
         anim.SetTrigger("Shoot");
 
-        playerCam.RecoilFire();
+        //playerCam.RecoilFire();
         //RecoilFire();
 
         Instantiate(smoke, new Vector3(attackPoint.position.x, attackPoint.position.y, attackPoint.position.z), fpsCam.transform.rotation);
@@ -185,32 +203,11 @@ public class GunScript : MonoBehaviour
 
         Ray ray = fpsCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         Vector3 rayOrigin = fpsCam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
-        RaycastHit hit;
-
-        Vector3 targetPoint;
-        if (Physics.Raycast(ray, out hit))
-            targetPoint = hit.point;
-        else
-            targetPoint = ray.GetPoint(75);
-
-        Vector3 directionWithoutSpread = targetPoint - attackPoint.position;
-
-        float x = Random.Range(-spread, spread);
-        float y = Random.Range(-spread, spread);
-
-        Vector3 dirWithSpred = targetPoint + new Vector3(x, y, 0);
 
 
-        if (Physics.Raycast(dirWithSpred, fpsCam.transform.forward, out hit, range))
-        {
-            EnemyBehivour enemyBehivour = hit.transform.GetComponent<EnemyBehivour>();
+     
 
-            if (enemyBehivour != null)
-            {
-                enemyBehivour.TakeDamage(damage);
-            }
 
-        }
 
         /*GameObject currentBullet = Instantiate(bullet, attackPoint.position, Quaternion.identity);
 

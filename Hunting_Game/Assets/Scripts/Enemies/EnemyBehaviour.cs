@@ -15,6 +15,7 @@ public class EnemyBehivour : MonoBehaviour
 
     [Header("Patrolling")]
     public Vector3 walkPoint;
+    public float waitTime;
     bool walkPointSet;
     public float walkPointRange;
 
@@ -22,6 +23,9 @@ public class EnemyBehivour : MonoBehaviour
     public float timeBetweenAttacks;
     bool alreadyAttacked;
     public float range = 4000;
+
+    [Header("Attraction")]
+    public GameObject attractor;
 
     [Header("Run")]
     public float runLength;
@@ -42,15 +46,25 @@ public class EnemyBehivour : MonoBehaviour
     public float upwardForce = 3;
     public float randomAmount = 0f;
 
+    public float crabcount = 1;
+
     private void Update()
     {
+
         playerInHearRange = Physics.CheckSphere(transform.position, hearRange, playerMask);
         playerInCloseRange = Physics.CheckSphere(transform.position, closeRange, playerMask);
 
         if (!playerInHearRange && !playerInCloseRange) Patroling();
         if (playerInHearRange && !playerInCloseRange) HearPlayer();
         if (playerInHearRange && playerInCloseRange) ClosePlayer();
+
+        if(attractor != null)
+            if (attractor.GetComponent<Attractor>().inRange)
+                agent.SetDestination(attractor.transform.position);
+
     }
+
+
 
     private void Awake()
     {
@@ -60,7 +74,7 @@ public class EnemyBehivour : MonoBehaviour
 
     private void Patroling()
     {
-        if (!walkPointSet) SearhWalkPoint();
+        if (!walkPointSet) Invoke("SearhWalkPoint", waitTime);
 
         if (walkPointSet)
             agent.SetDestination(walkPoint);
@@ -84,10 +98,12 @@ public class EnemyBehivour : MonoBehaviour
 
     private void HearPlayer()
     {
+        attractor = GameObject.FindGameObjectWithTag("Attractor");
         if(player.GetComponent<PlayerMovment>().state == PlayerMovment.MovementState.sprinting)
         {
             RunAway();
         }
+
     }
 
     private void ClosePlayer()
@@ -146,6 +162,7 @@ public class EnemyBehivour : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        print("TakeDamage");
         health -= damage;
         if (health <= 0)
         {
