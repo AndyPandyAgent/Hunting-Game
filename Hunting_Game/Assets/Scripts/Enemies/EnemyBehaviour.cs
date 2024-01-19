@@ -50,6 +50,7 @@ public class EnemyBehivour : MonoBehaviour
 
     private void Update()
     {
+        attractor = GameObject.FindGameObjectWithTag("Attractor");
 
         playerInHearRange = Physics.CheckSphere(transform.position, hearRange, playerMask);
         playerInCloseRange = Physics.CheckSphere(transform.position, closeRange, playerMask);
@@ -58,7 +59,7 @@ public class EnemyBehivour : MonoBehaviour
         if (playerInHearRange && !playerInCloseRange) HearPlayer();
         if (playerInHearRange && playerInCloseRange) ClosePlayer();
 
-        if(attractor != null)
+        if (attractor != null)
             if (attractor.GetComponent<Attractor>().inRange)
                 agent.SetDestination(attractor.transform.position);
 
@@ -74,7 +75,7 @@ public class EnemyBehivour : MonoBehaviour
 
     private void Patroling()
     {
-        if (!walkPointSet) Invoke("SearhWalkPoint", waitTime);
+        if (!walkPointSet) SearhWalkPoint();
 
         if (walkPointSet)
             agent.SetDestination(walkPoint);
@@ -98,7 +99,6 @@ public class EnemyBehivour : MonoBehaviour
 
     private void HearPlayer()
     {
-        attractor = GameObject.FindGameObjectWithTag("Attractor");
         if(player.GetComponent<PlayerMovment>().state == PlayerMovment.MovementState.sprinting)
         {
             RunAway();

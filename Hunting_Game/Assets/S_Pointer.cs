@@ -13,7 +13,8 @@ public class S_Pointer : MonoBehaviour
     }
     private void Update()
     {
-        transform.LookAt(targetObj.transform.position);
+        if(targetObj != null)
+            transform.LookAt(targetObj.transform.position);
 
         if (!isTracking)
         {

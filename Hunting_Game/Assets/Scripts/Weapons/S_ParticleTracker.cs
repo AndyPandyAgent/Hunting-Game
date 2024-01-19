@@ -13,7 +13,11 @@ public class S_ParticleTracker : MonoBehaviour
     public void Track()
     {
         if (animal == null)
+        {
+            gameObject.GetComponent<ParticleSystem>().maxParticles = 0;
             return;
+        }
+
         transform.LookAt(animal.transform.position);
     }
 }
