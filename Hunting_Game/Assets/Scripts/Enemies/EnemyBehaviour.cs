@@ -46,7 +46,7 @@ public class EnemyBehivour : MonoBehaviour
     public float upwardForce = 3;
     public float randomAmount = 0f;
 
-    public float crabcount = 1;
+
 
     private void Update()
     {

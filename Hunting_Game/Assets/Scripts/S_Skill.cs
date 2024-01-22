@@ -22,6 +22,9 @@ public class S_Skill : MonoBehaviour
     public GameObject lureUIYes;
     private bool lureBool;
 
+    [Header("Currency")]
+    public int currency;
+
     private void Awake()
     {
         skillTreeCanvas.SetActive(false);
