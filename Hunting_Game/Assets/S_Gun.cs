@@ -6,34 +6,30 @@ using UnityEngine;
 public class S_Gun : MonoBehaviour
 {
     public Transform fpsCam;
+    public Transform endPos;
     public LayerMask heartLayer;
     public float damage;
+    public GameObject shotObject;
 
 
 
     public void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        /*if (Input.GetMouseButtonDown(0))
         {
-            Debug.DrawRay(fpsCam.transform.position, fpsCam.transform.forward * 10f, Color.red, 1f);
 
-            print("click");
             RaycastHit hit;
-            if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, Mathf.Infinity))
+
+            if (Physics.Raycast(ray, out hit, 1000))
             {
+                print("hit");
+                print(hit.transform.gameObject.name);
 
-                print("hit object" + hit.transform.name);
-
-                print("Shoot");
                 S_Heart heart = hit.transform.GetComponent<S_Heart>();
-
-                if (heart != null)
-                {
-                    print("hit");
-                    heart.TakeDamage(damage);
-                }
+                heart.TakeDamage(damage);
             }
-        }
+        }*/
 
     }
+
 }

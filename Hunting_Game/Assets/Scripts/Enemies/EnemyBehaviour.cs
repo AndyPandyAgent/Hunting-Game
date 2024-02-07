@@ -38,6 +38,7 @@ public class EnemyBehivour : MonoBehaviour
     public float health = 100;
     public float maxHealth = 100;
     public float damageAmount = 20;
+    public float score;
 
     [Header("Shooting")]
     public GameObject bullet;
@@ -171,6 +172,7 @@ public class EnemyBehivour : MonoBehaviour
     }
     public void Die()
     {
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>().score += score;
         Destroy(gameObject);
     }
 

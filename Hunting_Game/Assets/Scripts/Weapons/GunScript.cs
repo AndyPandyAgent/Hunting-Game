@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -53,7 +54,6 @@ public class GunScript : MonoBehaviour
     public bool isAiming;
     public Transform weaponHolderAim;
     public Transform weaponHolder;
-    public GameObject cam;
 
     public float aimTime = 1;
     private float fov;
@@ -166,9 +166,10 @@ public class GunScript : MonoBehaviour
 
     private void Shoot()
     {
-        /*RaycastHit hit;
-        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, 999999999999999, heartLayer))
+        RaycastHit hit;
+        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward * 10000, out hit, Mathf.Infinity))
         {
+            print(hit.transform.gameObject.name);
             print("Shoot");
             S_Heart heart = hit.transform.GetComponent<S_Heart>();
 
@@ -177,15 +178,15 @@ public class GunScript : MonoBehaviour
                 print("hit");
                 heart.TakeDamage(damage);
             }
-        }*/
+        }
 
 
 
         //animScript.PlayAnim();
-        anim.SetTrigger("Shoot");
+        //anim.SetTrigger("Shoot");
 
-        //playerCam.RecoilFire();
-        //RecoilFire();
+        playerCam.RecoilFire();
+        RecoilFire();
 
         Instantiate(smoke, new Vector3(attackPoint.position.x, attackPoint.position.y, attackPoint.position.z), fpsCam.transform.rotation);
 
@@ -213,7 +214,7 @@ public class GunScript : MonoBehaviour
 
         currentBullet.transform.forward = directionWithSpread.normalized;
 
-        currentBullet.GetComponent<Rigidbody>().AddForce(directionWithSpread.normalized * shootForce, ForceMode.Impulse);
+        currentBullet.GetComponent<Rigidbody>().AddForce(fpsCam.transform.forward.normalized * shootForce, ForceMode.Impulse);
         currentBullet.GetComponent<Rigidbody>().AddForce(fpsCam.transform.up * upwardForce, ForceMode.Impulse);*/
 
         if (muzzleFlash != null)
@@ -266,4 +267,9 @@ public class GunScript : MonoBehaviour
         else targetRot += new Vector3(recoilX, Random.Range(-recoilY, recoilY), Random.Range(-recoilZ, recoilZ));
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Debug.DrawRay(fpsCam.transform.position, fpsCam.transform.forward * 10000);
+    }
 }

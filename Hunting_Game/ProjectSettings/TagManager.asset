@@ -8,6 +8,8 @@ TagManager:
   - AttackPoint
   - Animal
   - Attractor
+  - Heart
+  - Rifle
   layers:
   - Default
   - TransparentFX

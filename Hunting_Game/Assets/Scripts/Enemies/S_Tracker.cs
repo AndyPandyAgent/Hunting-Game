@@ -19,8 +19,12 @@ public class S_Tracker : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        GetAllEnemies();
-        pointer.GetComponent<S_Pointer>().GetTarget(closetstAnimal.gameObject);
+        if(pointer.GetComponent<S_Pointer>() != null)
+        {
+            GetAllEnemies();
+            pointer.GetComponent<S_Pointer>().GetTarget(closetstAnimal.gameObject);
+        }
+
     }
 
     private void GetAllEnemies()
