@@ -5,7 +5,7 @@ using UnityEngine;
 public class S_Pointer : MonoBehaviour
 {
     public GameObject targetObj;
-    private bool isTracking;
+    [HideInInspector]public bool isTracking;
 
     private void Awake()
     {

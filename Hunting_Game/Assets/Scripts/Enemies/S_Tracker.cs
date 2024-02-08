@@ -19,11 +19,18 @@ public class S_Tracker : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(pointer.GetComponent<S_Pointer>() != null)
+        if (GameObject.FindGameObjectWithTag("Pointer"))
         {
+            pointer = GameObject.FindGameObjectWithTag("Pointer");
             GetAllEnemies();
-            pointer.GetComponent<S_Pointer>().GetTarget(closetstAnimal.gameObject);
+            if (closetstAnimal != null)
+            {
+                print(closetstAnimal.name);
+                pointer.GetComponent<S_Pointer>().GetTarget(closetstAnimal.gameObject);
+            }
         }
+
+
 
     }
 

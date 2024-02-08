@@ -335,23 +335,29 @@ MonoBehaviour:
   walkPoint: {x: 0, y: 0, z: 0}
   waitTime: 5
   walkPointRange: 22.59
+  patrolSpeed: 3.5
   timeBetweenAttacks: 0
   range: 0
   attractor: {fileID: 0}
   runLength: 1
+  runSpeed: 7
   hearRange: 20.3
   closeRange: 2.22
+  runawayTime: 0
   playerInHearRange: 0
   playerInCloseRange: 0
+  isRunningAway: 0
+  center: {x: 0, y: 0, z: 0}
+  size: {x: 0, y: 0, z: 0}
   health: 100
   maxHealth: 100
   damageAmount: 20
+  score: 0
   bullet: {fileID: 0}
   attackPoint: {fileID: 0}
   shootForce: 300
   upwardForce: 3
   randomAmount: 0
-  crabcount: 0
 --- !u!195 &7633369924163871089
 NavMeshAgent:
   m_ObjectHideFlags: 0

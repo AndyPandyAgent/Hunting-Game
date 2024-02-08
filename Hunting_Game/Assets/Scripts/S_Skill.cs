@@ -6,16 +6,12 @@ using UnityEngine;
 public class S_Skill : MonoBehaviour
 {
     public GameObject skillTreeCanvas;
+    public bool isSkill;
 
     [Header("Orb")]
     public GameObject orb;
     public GameObject orbUIYes;
-    private bool orbBool;
 
-    [Header("Particle")]
-    public GameObject particle;
-    public GameObject particleUIYes;
-    private bool particleBool;
 
     [Header("Lure")]
     public GameObject lure;
@@ -24,6 +20,7 @@ public class S_Skill : MonoBehaviour
 
     [Header("Currency")]
     public int currency;
+    public int cost = 1;
 
     private void Awake()
     {
@@ -35,11 +32,9 @@ public class S_Skill : MonoBehaviour
     private void ResetSkills()
     {
         orbUIYes.SetActive(false);
-        particleUIYes.SetActive(false);
         lureUIYes.SetActive(false);
 
         orb.SetActive(false);
-        particle.SetActive(false);
         lure.SetActive(false);
     }
 
@@ -49,10 +44,7 @@ public class S_Skill : MonoBehaviour
         {
             orb.SetActive(true);
         }
-        if (particleUIYes.activeSelf)
-        {
-            particle.SetActive(true);
-        }
+
         if (lureUIYes.activeSelf)
         {
             lure.SetActive(true);
@@ -61,14 +53,19 @@ public class S_Skill : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             UISwitch();
+            print("Switch");
         }
-
-
     }
 
     public void TurnOnSkill(GameObject skill)
     {
-        skill.SetActive(true);
+        if(currency >= cost)
+        {
+            skill.SetActive(true);
+            currency -= cost;
+            GameObject.FindGameObjectWithTag("Dialouge").GetComponent<S_Dialouge>().ExitDialouge();
+            UISwitch();
+        }
     }
 
     public void UISwitch()
@@ -84,5 +81,10 @@ public class S_Skill : MonoBehaviour
 
         Cursor.visible = !Cursor.visible;
         skillTreeCanvas.SetActive(!skillTreeCanvas.activeSelf);
+    }
+
+    public void StartSkill()
+    {
+        skillTreeCanvas.SetActive(true);
     }
 }

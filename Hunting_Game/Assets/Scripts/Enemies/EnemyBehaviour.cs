@@ -18,6 +18,7 @@ public class EnemyBehivour : MonoBehaviour
     public float waitTime;
     bool walkPointSet;
     public float walkPointRange;
+    public float patrolSpeed;
 
     [Header("Attacking")]
     public float timeBetweenAttacks;
@@ -29,10 +30,13 @@ public class EnemyBehivour : MonoBehaviour
 
     [Header("Run")]
     public float runLength;
+    public float runSpeed;
 
     [Header("States")]
-    public float hearRange, closeRange;
-    public bool playerInHearRange, playerInCloseRange;
+    public float hearRange, closeRange, runawayTime;
+    public bool playerInHearRange, playerInCloseRange, isRunningAway;
+    public Vector3 center;
+    public Vector3 size;
 
     [Header("Health")]
     public float health = 100;
@@ -64,10 +68,10 @@ public class EnemyBehivour : MonoBehaviour
             if (attractor.GetComponent<Attractor>().inRange)
                 agent.SetDestination(attractor.transform.position);
 
+        if (isRunningAway)
+            RunAway();
+
     }
-
-
-
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -85,6 +89,8 @@ public class EnemyBehivour : MonoBehaviour
 
         if (distanceToWalkPoint.magnitude < 1f)
             walkPointSet = false;
+
+        agent.speed = patrolSpeed;
     }
 
     private void SearhWalkPoint()
@@ -100,56 +106,42 @@ public class EnemyBehivour : MonoBehaviour
 
     private void HearPlayer()
     {
-        if(player.GetComponent<PlayerMovment>().state == PlayerMovment.MovementState.sprinting)
-        {
-            RunAway();
-        }
-
+        isRunningAway = true;
     }
 
     private void ClosePlayer()
     {
-        if (player.GetComponent<PlayerMovment>().state == PlayerMovment.MovementState.walking)
-        {
-            RunAway();
-        }
+        isRunningAway = true;
     }
 
     private void RunAway()
     {
-        Vector3 runTo = transform.position + ((transform.position - player.position) * runLength);
-        agent.SetDestination(runTo);
+
+        Vector3 areaCenter = transform.position + ((transform.position - player.position) * runLength);
+        Vector3 randomPoint = GetRandomNavMeshPointWithinArea(areaCenter, size, groundMask);
+
+        agent.SetDestination(randomPoint);
+        Invoke("StopRunning", runawayTime);
+        agent.speed = agent.speed = runSpeed;
+    }
+    private void StopRunning()
+    {
+        isRunningAway = false;
     }
 
-    /*private void Shoot()
+    Vector3 GetRandomNavMeshPointWithinArea(Vector3 areaCenter, Vector3 areaSize, LayerMask layerMask)
     {
-        RaycastHit hit;
+        NavMeshHit hit;
+        Vector3 randomPoint = areaCenter + new Vector3(Random.Range(-areaSize.x / 2f, areaSize.x / 2f), 0f, Random.Range(-areaSize.z / 2f, areaSize.z / 2f));
 
-        Vector3 directionToPlayer = (player.position - transform.position).normalized;
-
-        shootLight.gameObject.SetActive(true);
-        Invoke("TurnOffLight", 0.05f);
-
-        Instantiate(smoke, new Vector3(attackPoint.position.x, attackPoint.position.y, attackPoint.position.z), transform.rotation);
-
-        Vector3 directionWithRandom = directionToPlayer + new Vector3(Random.Range(randomAmount, randomAmount), Random.Range(randomAmount, randomAmount), Random.Range(randomAmount, randomAmount));
-
-        if (Physics.Raycast(attackPoint.transform.position, directionToPlayer, out hit, range))
+        if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, layerMask))
         {
-
-            PlayerManager playerManager = hit.transform.GetComponent<PlayerManager>();
-
-
-            if (playerManager != null)
-            {
-                //playerManager.TakeDamage(damageAmount);
-            }
-
+            return hit.position;
         }
 
-
-        Debug.DrawRay(transform.position, transform.forward, Color.yellow);
-    }*/
+        // If no valid point found, return center of the area
+        return areaCenter;
+    }
 
     private void ResetAttack()
     {
@@ -174,10 +166,22 @@ public class EnemyBehivour : MonoBehaviour
     {
         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>().score += score;
         Destroy(gameObject);
-    }
 
-    /*private void TurnOffLight()
-    {
-        shootLight.gameObject.SetActive(false);
-    }*/
+        if (GameObject.FindGameObjectWithTag("Pointer"))
+        {
+            S_Pointer pointer = GameObject.FindGameObjectWithTag("Pointer").GetComponent<S_Pointer>();
+            if (pointer != null)
+            {
+                if (pointer.targetObj = gameObject)
+                {
+
+                    pointer.targetObj = null;
+                    pointer.isTracking = false;
+                }
+            }
+        }
+
+
+
+    }
 }
