@@ -21,6 +21,8 @@ public class S_WorldStateManager : MonoBehaviour
 
     public bool chaosCurrentState = false;
     public bool chaosState;
+    public bool normalState;
+    public bool startBoss;
     public bool isInPos;
     public float animTime = 4;
     public int cost = 1;
@@ -42,6 +44,7 @@ public class S_WorldStateManager : MonoBehaviour
 
     private void Awake()
     {
+        normalState = true;
         ogColor = light.color;
         gunScript = GameObject.FindGameObjectWithTag("Rifle").GetComponent<GunScript>();
         startTimer = timer;
@@ -54,13 +57,20 @@ public class S_WorldStateManager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.T))
             chaosState = !chaosState;
-        if (!chaosState)
+        if (chaosState)
+        {
+            ChaosState();
+        }
+
+        else if (normalState)
         {
             NormalState();
         }
-        else
+
+        else if (startBoss)
         {
-            ChaosState();
+            BossState();
+            startBoss = false;
         }
 
         if(shake > 0)
@@ -112,6 +122,19 @@ public class S_WorldStateManager : MonoBehaviour
         god.transform.position = Vector3.Lerp(god.transform.position, startPos.position, animTime * Time.deltaTime);
         playerCam.enabled = true;
         gunScript.enabled = true;
+    }
+
+    private void BossState()
+    {
+        chaosState = false;
+        light.color = Color.red;
+        god.transform.position = Vector3.Lerp(god.transform.position, endPos.position, animTime * Time.deltaTime);
+        playerCam.enabled = true;
+        gunScript.enabled = true;
+        if (isInPos)
+        {
+            god.GetComponent<S_BossBehaviour>().startShoot = true;
+        }
     }
 
     public bool IsInsideBounds(Vector3 pos)

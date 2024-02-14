@@ -14,15 +14,15 @@ public class Attractor : MonoBehaviour
     {
         CheckDist();
         GetAllEnemies();
+        SetAttract();
 
     }
 
     private void Awake()
     {
-        OnDrop();
     }
 
-    private void OnDrop()
+    private void SetAttract()
     {
         if(closetstAnimal != null)
             closetstAnimal.GetComponent<EnemyBehivour>().attractor = gameObject;

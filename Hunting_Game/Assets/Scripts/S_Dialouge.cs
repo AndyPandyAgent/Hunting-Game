@@ -50,8 +50,11 @@ public class S_Dialouge : MonoBehaviour
 
     public void SacrificeButton()
     {
-        playerManager.Suicide();
+        print("ded");
+        playerManager.dead = true;
         ExitDialouge();
+        EnableUI();
+        worldState.normalState = true;
     }
 
     public void PayRent()
@@ -59,11 +62,21 @@ public class S_Dialouge : MonoBehaviour
         if (playerManager.score >= worldState.cost)
         {
             playerManager.score -= worldState.cost;
-            skill.StartSkill();
+
             skill.currency++;
             worldState.cost++;
             buttonInt = 0;
+            skill.StartSkill();
             EnableUI();
+            if(worldState.cost >= 5)
+            {
+                worldState.normalState = false;
+                worldState.startBoss = true;
+            }
+            else
+            {
+                worldState.normalState = true;
+            }
         }
         worldState.Spawn();
     }
@@ -79,15 +92,16 @@ public class S_Dialouge : MonoBehaviour
 
     public void ExitDialouge()
     {
+        Invoke("DisableUI", 0.1f);
         worldState.chaosState = false;
         worldState.timer = worldState.startTimer + 60;
         worldState.startTimer = worldState.timer;
-        Invoke("DisableUI", 0.1f);
+
     }
 
     private void Update()
     {
-        if (worldState.isInPos)
+        if (worldState.isInPos && worldState.chaosState)
         {
             StartDialouge();
             isUI = true;

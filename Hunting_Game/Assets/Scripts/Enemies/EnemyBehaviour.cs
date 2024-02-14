@@ -55,7 +55,7 @@ public class EnemyBehivour : MonoBehaviour
 
     private void Update()
     {
-        attractor = GameObject.FindGameObjectWithTag("Attractor");
+        //attractor = GameObject.FindGameObjectWithTag("Attractor");
 
         playerInHearRange = Physics.CheckSphere(transform.position, hearRange, playerMask);
         playerInCloseRange = Physics.CheckSphere(transform.position, closeRange, playerMask);
