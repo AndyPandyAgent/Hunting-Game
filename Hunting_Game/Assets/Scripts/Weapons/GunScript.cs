@@ -173,10 +173,17 @@ public class GunScript : MonoBehaviour
             print("Shoot");
             S_Heart heart = hit.transform.GetComponent<S_Heart>();
 
+
             if (heart != null)
             {
                 print("hit");
                 heart.TakeDamage(damage);
+            }
+
+
+            if(hit.transform.tag == "BossHealth")
+            {
+                hit.transform.GetComponentInParent<S_BossBehaviour>().KillPoint();
             }
         }
 

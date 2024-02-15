@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class S_HoverPopup : MonoBehaviour
 {
     public GameObject hoverPopup;
-    private void OnMouseOver()
+
+    public void PopUpEnter()
     {
         hoverPopup.SetActive(true);
     }
-    private void OnMouseExit()
+
+    public void PopUpExit()
     {
         hoverPopup.SetActive(false);
     }

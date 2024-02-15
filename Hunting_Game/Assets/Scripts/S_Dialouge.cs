@@ -78,7 +78,6 @@ public class S_Dialouge : MonoBehaviour
                 worldState.normalState = true;
             }
         }
-        worldState.Spawn();
     }
 
     public void StartDialouge()

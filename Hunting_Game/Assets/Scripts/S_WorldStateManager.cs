@@ -165,6 +165,11 @@ public class S_WorldStateManager : MonoBehaviour
         }
     }
 
+    public void WinState()
+    {
+        print("You win");
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(bounds.center, bounds.size);

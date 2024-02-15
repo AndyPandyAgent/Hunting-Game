@@ -11,6 +11,9 @@ TagManager:
   - Heart
   - Rifle
   - Dialouge
+  - God
+  - BossHealth
+  - WorldManager
   layers:
   - Default
   - TransparentFX
