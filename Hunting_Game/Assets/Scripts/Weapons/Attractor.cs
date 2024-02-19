@@ -13,19 +13,23 @@ public class Attractor : MonoBehaviour
     private void Update()
     {
         CheckDist();
-        GetAllEnemies();
         SetAttract();
-
     }
 
     private void Awake()
     {
+        GetAllEnemies();
     }
 
     private void SetAttract()
     {
-        if(closetstAnimal != null)
-            closetstAnimal.GetComponent<EnemyBehivour>().attractor = gameObject;
+        if (closetstAnimal != null)
+            print(closetstAnimal.gameObject.name);
+            closetstAnimal.gameObject.GetComponentInParent<S_AnimalBehaviour>().attractor = gameObject;
+        if(closetstAnimal == null)
+        {
+            GetAllEnemies();
+        }
     }
 
 
@@ -44,6 +48,10 @@ public class Attractor : MonoBehaviour
         foreach (GameObject animal in allAnimals)
         {
             allAnimalsTransforms.Add(animal.transform);
+            if (allAnimalsTransforms.Contains(animal.transform))
+            {
+                allAnimalsTransforms.Remove(animal.transform);
+            }
         }
 
         Transform[] allAnimalsTransformsArray = allAnimalsTransforms.ToArray();

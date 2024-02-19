@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyBehivour : MonoBehaviour
+public class S_AnimalBehaviour : MonoBehaviour
 {
     public NavMeshAgent agent;
 
@@ -65,7 +65,6 @@ public class EnemyBehivour : MonoBehaviour
         if (playerInHearRange && playerInCloseRange) ClosePlayer();
 
         if (attractor != null)
-            if (attractor.GetComponent<Attractor>().inRange)
                 agent.SetDestination(attractor.transform.position);
 
         if (isRunningAway)
@@ -164,7 +163,7 @@ public class EnemyBehivour : MonoBehaviour
     }
     public void Die()
     {
-        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>().score += score;
+        //GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>().score += score;
         Destroy(gameObject);
 
         if (GameObject.FindGameObjectWithTag("Pointer"))

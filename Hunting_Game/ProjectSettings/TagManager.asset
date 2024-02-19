@@ -14,6 +14,7 @@ TagManager:
   - God
   - BossHealth
   - WorldManager
+  - Enemy
   layers:
   - Default
   - TransparentFX

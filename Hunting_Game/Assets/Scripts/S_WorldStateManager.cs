@@ -26,6 +26,8 @@ public class S_WorldStateManager : MonoBehaviour
     public bool isInPos;
     public float animTime = 4;
     public int cost = 1;
+    public Material chaosMat;
+    private Material normalMat;
 
     public float timer;
     [HideInInspector]public float startTimer;
@@ -48,6 +50,8 @@ public class S_WorldStateManager : MonoBehaviour
         ogColor = light.color;
         gunScript = GameObject.FindGameObjectWithTag("Rifle").GetComponent<GunScript>();
         startTimer = timer;
+
+        normalMat = RenderSettings.skybox;
     }
     private void Update()
     {
@@ -108,6 +112,7 @@ public class S_WorldStateManager : MonoBehaviour
             shake = 6;
         chaosCurrentState = true;
         light.color = Color.red;
+        RenderSettings.skybox = chaosMat;
         god.transform.position = Vector3.Lerp(god.transform.position, endPos.position, animTime * Time.deltaTime);
         playerCam.enabled = false;
         gunScript.enabled = false;
@@ -119,6 +124,7 @@ public class S_WorldStateManager : MonoBehaviour
     {
         chaosCurrentState = false;
         light.color = ogColor;
+        RenderSettings.skybox = normalMat;
         god.transform.position = Vector3.Lerp(god.transform.position, startPos.position, animTime * Time.deltaTime);
         playerCam.enabled = true;
         gunScript.enabled = true;

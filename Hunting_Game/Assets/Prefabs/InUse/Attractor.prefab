@@ -1302,7 +1302,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4283943226163085267}
   - component: {fileID: 7028681411058521541}
-  - component: {fileID: 6241411663451661117}
+  - component: {fileID: 3601532145366201529}
   m_Layer: 7
   m_Name: Attractor
   m_TagString: Attractor
@@ -1368,7 +1368,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6241411663451661117
+--- !u!114 &3601532145366201529
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1377,12 +1377,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8312666661390194300}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b042f7aae8cada46bb33ba8ca4d0e6b, type: 3}
+  m_Script: {fileID: 11500000, guid: 2295b62cf4fd33140a8a4fd36c74db4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inRange: 0
-  range: 99999
-  allAnimals: []
+  targetObject: {fileID: 0}
+  gameObjectList: []
 --- !u!1 &8408840186094902419
 GameObject:
   m_ObjectHideFlags: 0

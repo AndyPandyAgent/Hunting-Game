@@ -7,6 +7,11 @@ public class S_HoverPopup : MonoBehaviour
 {
     public GameObject hoverPopup;
 
+    private void Awake()
+    {
+        hoverPopup.SetActive(false);
+    }
+
     public void PopUpEnter()
     {
         hoverPopup.SetActive(true);

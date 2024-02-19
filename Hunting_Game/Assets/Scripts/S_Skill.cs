@@ -53,6 +53,7 @@ public class S_Skill : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             UISwitch();
+            skillTreeCanvas.SetActive(!skillTreeCanvas.activeSelf);
             print("Switch");
         }
     }
@@ -65,6 +66,7 @@ public class S_Skill : MonoBehaviour
             currency -= cost;
             GameObject.FindGameObjectWithTag("Dialouge").GetComponent<S_Dialouge>().ExitDialouge();
             UISwitch();
+            skillTreeCanvas.SetActive(!skillTreeCanvas.activeSelf);
         }
     }
 
@@ -80,7 +82,7 @@ public class S_Skill : MonoBehaviour
         }
 
         Cursor.visible = !Cursor.visible;
-        skillTreeCanvas.SetActive(!skillTreeCanvas.activeSelf);
+        
     }
 
     public void StartSkill()

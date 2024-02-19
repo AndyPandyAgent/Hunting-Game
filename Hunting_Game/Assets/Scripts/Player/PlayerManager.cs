@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -15,6 +14,11 @@ public class PlayerManager : MonoBehaviour
     public Image bloodScreen;
     public TextMeshProUGUI youDied;
     [HideInInspector] public bool dead;
+
+
+    public Canvas pauseCanvas;
+    public bool isPasued;
+    public GameObject skills;
 
     private void Awake()
     {
@@ -34,10 +38,20 @@ public class PlayerManager : MonoBehaviour
         {
             Invoke("ReloadScene", 2);
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            pauseCanvas.gameObject.active = !pauseCanvas.gameObject.active;
+            skills.GetComponent<S_Skill>().UISwitch();
+        }
+
+        
     }
 
     public void Die()
     {
+
+
         var tempColor = bloodScreen.color;
         tempColor.a = 0.5f;
         bloodScreen.color = Color.Lerp(bloodScreen.color, tempColor, 1 * Time.deltaTime);
@@ -51,5 +65,22 @@ public class PlayerManager : MonoBehaviour
     private void ReloadScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if(collision.gameObject.tag == "Heart")
+        {
+            score++;
+            Destroy(collision.gameObject);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Enemy")
+        {
+            dead = true;
+        }
     }
 }

@@ -8,7 +8,7 @@ public class EnemyStats
     public float health;
     public float[] position;
 
-    public EnemyStats(EnemyBehivour enemy)
+    public EnemyStats(S_AnimalBehaviour enemy)
     {
         health = enemy.health;
 

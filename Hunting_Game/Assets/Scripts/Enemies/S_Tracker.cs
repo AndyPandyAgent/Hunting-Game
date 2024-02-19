@@ -38,6 +38,7 @@ public class S_Tracker : MonoBehaviour
     {
 
         allAnimals = GameObject.FindGameObjectsWithTag("Animal");
+        allAnimals = GameObject.FindGameObjectsWithTag("Enemy");
 
         if (allAnimals == null)
             return;

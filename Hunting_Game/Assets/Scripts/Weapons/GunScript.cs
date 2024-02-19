@@ -139,9 +139,9 @@ public class GunScript : MonoBehaviour
         if (ammunitionDisplay != null)
             ammunitionDisplay.SetText(bulletsLeft / bulletsPerTap + "/" + magazineSize / bulletsPerTap);
 
-        /*targetRot = Vector3.Lerp(targetRot, Vector3.zero, returnSpeed * Time.deltaTime);
+        targetRot = Vector3.Lerp(targetRot, Vector3.zero, returnSpeed * Time.deltaTime);
         currentRot = Vector3.Slerp(currentRot, targetRot, snappiness * Time.fixedDeltaTime);
-        transform.localRotation = Quaternion.Euler(currentRot);*/
+        transform.localRotation = Quaternion.Euler(currentRot);
     }
 
     private void MyInput()
@@ -177,7 +177,7 @@ public class GunScript : MonoBehaviour
             if (heart != null)
             {
                 print("hit");
-                heart.TakeDamage(damage);
+                heart.TakeDamage();
             }
 
 
