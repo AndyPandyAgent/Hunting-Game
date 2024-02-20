@@ -922,7 +922,7 @@ GameObject:
   - component: {fileID: 287703776}
   m_Layer: 0
   m_Name: God
-  m_TagString: Untagged
+  m_TagString: God
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1052,6 +1052,7 @@ MonoBehaviour:
   shootForce: 0.5
   cooldown: 1
   startShoot: 0
+  startSpawn: 0
 --- !u!1 &307469675
 GameObject:
   m_ObjectHideFlags: 0
@@ -5073,14 +5074,17 @@ MonoBehaviour:
   shakeAmount: 0.3
   decreseAmount: 1.5
   freq: 25
-  enemy: {fileID: 5276092705453310431, guid: b4a6ded619deb19478f992c0ade402f1, type: 3}
+  enemy: {fileID: 9009089582486012251, guid: 46d17555ef81b4040b6c66a8b8dcd3b4, type: 3}
   bounds:
     m_Center: {x: 470.9, y: 0, z: 609.81}
     m_Extent: {x: 61.2, y: 74.3, z: 66}
-  spawnRange: 300
+  spawnRange: 134.2
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  spawnFrequency: 2
+  enemiesToSpawn: 1
+  latestEnemy: {fileID: 0}
 --- !u!4 &1510250784
 Transform:
   m_ObjectHideFlags: 0
@@ -7745,7 +7749,7 @@ GameObject:
   - component: {fileID: 2134082616}
   - component: {fileID: 2134082615}
   - component: {fileID: 2134082614}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7769,7 +7773,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30

@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class S_BossBehaviour : MonoBehaviour
 {
     private GameObject player;
+    private GameObject worldState;
 
     [Header("Health")]
     public float health;
@@ -18,11 +20,13 @@ public class S_BossBehaviour : MonoBehaviour
     [SerializeField]private float shootForce;
     [SerializeField]private float cooldown;
     [HideInInspector]public bool startShoot;
+    [HideInInspector] public bool startSpawn;
 
 
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        worldState = GameObject.FindGameObjectWithTag("WorldManager");
     }
 
     private void Update()
@@ -30,6 +34,11 @@ public class S_BossBehaviour : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.B))
             startShoot = true;
 
+
+        if (startSpawn)
+        {
+            //worldState.GetComponent<S_WorldStateManager>().Spawn();
+        }
 
         if (startShoot)
         {
@@ -44,7 +53,7 @@ public class S_BossBehaviour : MonoBehaviour
 
         if(health <= 0 && !hasDied)
         {
-            GameObject.FindGameObjectWithTag("WorldManager").GetComponent<S_WorldStateManager>().WinState();
+            worldState.GetComponent<S_WorldStateManager>().WinState();
             hasDied = true;
         }
     }

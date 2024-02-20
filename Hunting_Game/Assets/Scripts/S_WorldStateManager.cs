@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class S_WorldStateManager : MonoBehaviour
 {
@@ -43,6 +44,12 @@ public class S_WorldStateManager : MonoBehaviour
     public Bounds bounds;
     public float spawnRange;
     public LayerMask groundLayer;
+    public float spawnFrequency;
+    public int enemiesToSpawn;
+    public GameObject latestEnemy;
+    private List<GameObject> spawnedEnemies;
+
+    private bool hasStartedShooting;
 
     private void Awake()
     {
@@ -50,6 +57,7 @@ public class S_WorldStateManager : MonoBehaviour
         ogColor = light.color;
         gunScript = GameObject.FindGameObjectWithTag("Rifle").GetComponent<GunScript>();
         startTimer = timer;
+        hasStartedShooting = false;
 
         normalMat = RenderSettings.skybox;
     }
@@ -70,10 +78,10 @@ public class S_WorldStateManager : MonoBehaviour
         {
             NormalState();
         }
-
         else if (startBoss)
         {
             BossState();
+            StartCoroutine(Spawner(enemiesToSpawn, spawnFrequency));
             startBoss = false;
         }
 
@@ -104,6 +112,11 @@ public class S_WorldStateManager : MonoBehaviour
 
         bounds.center = player.transform.position;
 
+        if (spawnedEnemies.Count >= enemiesToSpawn && !hasStartedShooting)
+        {
+            GameObject.FindGameObjectWithTag("God").GetComponent<S_BossBehaviour>().startShoot = true;
+            hasStartedShooting = true;
+        }
     }
 
     private void ChaosState()
@@ -139,7 +152,7 @@ public class S_WorldStateManager : MonoBehaviour
         gunScript.enabled = true;
         if (isInPos)
         {
-            god.GetComponent<S_BossBehaviour>().startShoot = true;
+            god.GetComponent<S_BossBehaviour>().startSpawn = true;
         }
     }
 
@@ -150,25 +163,17 @@ public class S_WorldStateManager : MonoBehaviour
 
     public void Spawn()
     {
-        Vector3 point;
         Vector3 randomOffset = Random.insideUnitCircle * spawnRange;
-        Vector3 randomPos = player.transform.position + randomOffset;
+        Vector3 randomPos = player.transform.position + randomOffset + new Vector3(0,1000,0);
 
 
         RaycastHit hit;
-        if (Physics.Raycast(randomPos, Vector3.down, out hit, Mathf.Infinity, groundLayer))
+        if (Physics.Raycast(randomPos, Vector3.down, out hit, Mathf.Infinity, groundLayer) || Physics.Raycast(randomPos, Vector3.down *-1, out hit, Mathf.Infinity, groundLayer))
         {
             randomPos = hit.point;
         }
-        var enem = Instantiate(enemy, randomPos, Quaternion.identity);
-        point = enem.transform.position;
-
-
-        if (IsInsideBounds(point))
-        {
-            Destroy(enem);
-            Instantiate(enemy, randomPos, Quaternion.identity);
-        }
+        GameObject enem = Instantiate(enemy, randomPos, Quaternion.identity);
+        spawnedEnemies.Add(enem);
     }
 
     public void WinState()
@@ -180,5 +185,14 @@ public class S_WorldStateManager : MonoBehaviour
     {
         Gizmos.DrawWireCube(bounds.center, bounds.size);
         Gizmos.DrawWireSphere(transform.position, spawnRange);
+    }
+
+    IEnumerator Spawner(int count, float delay)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            Spawn();
+            yield return new WaitForSeconds(delay);
+        }
     }
 }
