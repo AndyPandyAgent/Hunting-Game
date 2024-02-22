@@ -15,6 +15,7 @@ TagManager:
   - BossHealth
   - WorldManager
   - Enemy
+  - Absorb
   layers:
   - Default
   - TransparentFX

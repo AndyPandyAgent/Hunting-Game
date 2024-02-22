@@ -15,7 +15,7 @@ public class TrackerSpawner : MonoBehaviour
 
     private void Spawner()
     {
-        var newTracker = Instantiate(tracker, transform.position, transform.rotation);
+        var newTracker = Instantiate(tracker, transform.position + new Vector3(0,0, -2), transform.rotation);
 
         Invoke("Spawner", spawnRate);
     }

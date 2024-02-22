@@ -53,8 +53,13 @@ public class S_BossBehaviour : MonoBehaviour
 
         if(health <= 0 && !hasDied)
         {
-            worldState.GetComponent<S_WorldStateManager>().WinState();
+            player.GetComponent<PlayerManager>().Win();
             hasDied = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            health = 0;
         }
     }
 

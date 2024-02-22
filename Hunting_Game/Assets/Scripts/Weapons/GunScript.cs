@@ -10,7 +10,9 @@ public class GunScript : MonoBehaviour
 
     public GameObject bullet;
     public WeaonAnimScript animScript;
+    public S_WorldStateManager world;
     private Animator anim;
+    public PlayerManager playerManager;
 
     private const bool setTrue = true;
 
@@ -87,10 +89,8 @@ public class GunScript : MonoBehaviour
     }
     private void Update()
     {
-
-
-        Engage();
-
+        if(world.hasStarted)
+            Engage();
     }
 
     private void Aiming()
@@ -166,6 +166,7 @@ public class GunScript : MonoBehaviour
 
     private void Shoot()
     {
+        playerManager.allShots++;
         RaycastHit hit;
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward * 10000, out hit, Mathf.Infinity))
         {
@@ -177,6 +178,8 @@ public class GunScript : MonoBehaviour
             if (heart != null)
             {
                 print("hit");
+                playerManager.allDist.Add(Vector3.Distance(transform.position, heart.transform.position));
+                playerManager.allHits++;
                 heart.TakeDamage();
             }
 

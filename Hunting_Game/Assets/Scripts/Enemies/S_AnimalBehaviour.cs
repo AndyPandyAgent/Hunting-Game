@@ -86,7 +86,7 @@ public class S_AnimalBehaviour : MonoBehaviour
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
-        if (distanceToWalkPoint.magnitude < 1f)
+        if (distanceToWalkPoint.magnitude < 2f)
             walkPointSet = false;
 
         agent.speed = patrolSpeed;
@@ -150,6 +150,15 @@ public class S_AnimalBehaviour : MonoBehaviour
     {
         Gizmos.DrawWireSphere(transform.position, hearRange);
         Gizmos.DrawWireSphere(transform.position, closeRange);
+
+        if (agent != null && agent.hasPath)
+        {
+            Gizmos.color = Color.blue;
+            for (int i = 0; i < agent.path.corners.Length - 1; i++)
+            {
+                Gizmos.DrawLine(agent.path.corners[i], agent.path.corners[i + 1]);
+            }
+        }
     }
 
     public void TakeDamage(float damage)

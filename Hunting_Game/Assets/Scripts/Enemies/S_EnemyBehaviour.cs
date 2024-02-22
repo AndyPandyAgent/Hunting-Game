@@ -84,7 +84,7 @@ public class S_EnemyBehaviour : MonoBehaviour
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
-        if (distanceToWalkPoint.magnitude < 1f)
+        if (distanceToWalkPoint.magnitude < 3f)
             walkPointSet = false;
 
         agent.speed = patrolSpeed;

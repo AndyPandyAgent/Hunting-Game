@@ -6,6 +6,7 @@ using UnityEngine.XR;
 public class PlayerMovment : MonoBehaviour
 {
     public GunScript gunScript;
+    public S_WorldStateManager world;
     
     [Header("Movment")]
     public float moveSpeed;
@@ -69,9 +70,14 @@ public class PlayerMovment : MonoBehaviour
         // ground check
         isGrounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
 
-        MyInput();
-        SpeedControl();
-        StateHandler();
+        if (world.hasStarted)
+        {
+            MyInput();
+            SpeedControl();
+            StateHandler();
+        }
+
+
 
         // handle drag
         if(isGrounded)

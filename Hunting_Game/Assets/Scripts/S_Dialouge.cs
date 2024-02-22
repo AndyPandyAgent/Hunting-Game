@@ -68,7 +68,7 @@ public class S_Dialouge : MonoBehaviour
             buttonInt = 0;
             skill.StartSkill();
             EnableUI();
-            if(worldState.cost >= 5)
+            if(worldState.cost >= 4)
             {
                 worldState.normalState = false;
                 worldState.startBoss = true;
@@ -93,7 +93,7 @@ public class S_Dialouge : MonoBehaviour
     {
         Invoke("DisableUI", 0.1f);
         worldState.chaosState = false;
-        worldState.timer = worldState.startTimer + 60;
+        worldState.timer = worldState.startTimer;
         worldState.startTimer = worldState.timer;
 
     }

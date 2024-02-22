@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerCam : MonoBehaviour
 {
+    public S_WorldStateManager worldManager;
 
     public float sensX;
     public float sensY;
@@ -37,15 +38,15 @@ public class PlayerCam : MonoBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+
     }
 
     // Update is called once per frame
 
     private void Update()
     {
-        Engage();
+        if(worldManager.hasStarted)
+            Engage();
     }
     void Engage()
     {

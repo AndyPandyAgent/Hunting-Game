@@ -14,6 +14,7 @@ public class S_WorldStateManager : MonoBehaviour
     public Camera fpsCam;
     public GameObject camHolder;
     public Transform player;
+    public S_Skill skill;
 
     private Color ogColor;
     public GameObject god;
@@ -29,6 +30,11 @@ public class S_WorldStateManager : MonoBehaviour
     public int cost = 1;
     public Material chaosMat;
     private Material normalMat;
+
+    [Header("GameStart")]
+    public List<GameObject> inactiveObjects;
+    public bool hasStarted = false;
+    public Canvas mainMenu;
 
     public float timer;
     [HideInInspector]public float startTimer;
@@ -47,12 +53,13 @@ public class S_WorldStateManager : MonoBehaviour
     public float spawnFrequency;
     public int enemiesToSpawn;
     public GameObject latestEnemy;
-    private List<GameObject> spawnedEnemies;
+    public int spawnedEnemies;
 
     private bool hasStartedShooting;
 
     private void Awake()
     {
+        Time.timeScale = 0;
         normalState = true;
         ogColor = light.color;
         gunScript = GameObject.FindGameObjectWithTag("Rifle").GetComponent<GunScript>();
@@ -112,12 +119,18 @@ public class S_WorldStateManager : MonoBehaviour
 
         bounds.center = player.transform.position;
 
-        if (spawnedEnemies.Count >= enemiesToSpawn && !hasStartedShooting)
+        if(spawnedEnemies != null)
         {
-            GameObject.FindGameObjectWithTag("God").GetComponent<S_BossBehaviour>().startShoot = true;
-            hasStartedShooting = true;
+            if (spawnedEnemies >= enemiesToSpawn - 1 && !hasStartedShooting)
+            {
+                GameObject.FindGameObjectWithTag("God").GetComponent<S_BossBehaviour>().startShoot = true;
+                hasStartedShooting = true;
+            }
         }
+
+
     }
+
 
     private void ChaosState()
     {
@@ -173,13 +186,8 @@ public class S_WorldStateManager : MonoBehaviour
             randomPos = hit.point;
         }
         GameObject enem = Instantiate(enemy, randomPos, Quaternion.identity);
-        spawnedEnemies.Add(enem);
     }
 
-    public void WinState()
-    {
-        print("You win");
-    }
 
     private void OnDrawGizmos()
     {
@@ -187,10 +195,24 @@ public class S_WorldStateManager : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, spawnRange);
     }
 
+    public void StartGame()
+    {
+        foreach (GameObject obj in inactiveObjects)
+        {
+            obj.SetActive(true);
+        }
+        hasStarted = true;
+        mainMenu.gameObject.SetActive(false);
+        skill.UISwitch();
+        Time.timeScale = 1;
+        
+    }
+
     IEnumerator Spawner(int count, float delay)
     {
         for (int i = 0; i < count; i++)
         {
+            spawnedEnemies = i;
             Spawn();
             yield return new WaitForSeconds(delay);
         }

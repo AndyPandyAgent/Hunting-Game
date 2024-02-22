@@ -7,7 +7,7 @@ public class S_Tracker : MonoBehaviour
 {
     public GameObject pointer;
     public GameObject owner;
-    public GameObject[] allAnimals;
+    public List<GameObject> allAnimals;
     private Transform closetstAnimal;
 
     private void Awake()
@@ -19,26 +19,26 @@ public class S_Tracker : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (GameObject.FindGameObjectWithTag("Pointer"))
+        if(other.tag == "Player")
         {
-            pointer = GameObject.FindGameObjectWithTag("Pointer");
-            GetAllEnemies();
-            if (closetstAnimal != null)
+            if (GameObject.FindGameObjectWithTag("Pointer"))
             {
-                print(closetstAnimal.name);
-                pointer.GetComponent<S_Pointer>().GetTarget(closetstAnimal.gameObject);
+                pointer = GameObject.FindGameObjectWithTag("Pointer");
+                GetAllEnemies();
+                if (closetstAnimal != null)
+                {
+                    print(closetstAnimal.name);
+                    pointer.GetComponent<S_Pointer>().GetTarget(closetstAnimal.gameObject);
+                }
             }
         }
-
-
-
     }
 
     private void GetAllEnemies()
     {
 
-        allAnimals = GameObject.FindGameObjectsWithTag("Animal");
-        allAnimals = GameObject.FindGameObjectsWithTag("Enemy");
+        allAnimals.AddRange(GameObject.FindGameObjectsWithTag("Animal"));
+        allAnimals.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
 
         if (allAnimals == null)
             return;

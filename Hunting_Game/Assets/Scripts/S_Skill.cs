@@ -16,7 +16,12 @@ public class S_Skill : MonoBehaviour
     [Header("Lure")]
     public GameObject lure;
     public GameObject lureUIYes;
-    private bool lureBool;
+
+    [Header("Absorb")]
+    public GameObject absorb;
+    public GameObject absorbUIYes;
+    private bool hasGivenHearts;
+
 
     [Header("Currency")]
     public int currency;
@@ -25,6 +30,7 @@ public class S_Skill : MonoBehaviour
     private void Awake()
     {
         skillTreeCanvas.SetActive(false);
+        hasGivenHearts = false;
 
         ResetSkills();
     }
@@ -48,6 +54,19 @@ public class S_Skill : MonoBehaviour
         if (lureUIYes.activeSelf)
         {
             lure.SetActive(true);
+        }
+
+        if (absorbUIYes.activeSelf)
+        {
+            absorb.SetActive(true);
+            if (!hasGivenHearts)
+            {
+                GameObject[] hearts = GameObject.FindGameObjectsWithTag("Heart");
+                foreach (GameObject heart in hearts)
+                {
+                    heart.GetComponent<S_Heart>().absorb = absorb;
+                }
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Tab))

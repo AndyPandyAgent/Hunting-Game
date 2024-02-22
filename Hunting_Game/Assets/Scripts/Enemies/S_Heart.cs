@@ -6,21 +6,23 @@ using UnityEngine;
 public class S_Heart : MonoBehaviour
 {
     private GameObject ownerBehaviour;
-    private Rigidbody rb;
+    public GameObject absorb;
 
     private void Awake()
     {
         ownerBehaviour = transform.parent.GameObject();
-        rb = GetComponent<Rigidbody>();
-        rb.useGravity = false;
     }
 
     public void TakeDamage()
     {
-        print("Heart");
-        ownerBehaviour.GetComponent<S_SlimeAnimator>().isDead = true;
         ownerBehaviour.GetComponent<BoxCollider>().enabled = false;
         gameObject.transform.parent = null;
-        rb.useGravity = true;
+
+        if (ownerBehaviour.GetComponent<S_SlimeAnimator>() != null)
+            ownerBehaviour.GetComponent<S_SlimeAnimator>().isDead = true;
+
+
+        if(absorb != null)
+            absorb.GetComponent<S_Absorb>().GetHeart(gameObject);
     }
 }
